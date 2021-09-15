@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebiz.zhanye.db.dao.EbizCustomerSpecDAO">
+    <resultMap id="BaseResultMap" type="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="customer_status" jdbcType="INTEGER" property="customerStatus" />
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+        <result column="social_code" jdbcType="VARCHAR" property="socialCode" />
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+        <result column="customer_sex" jdbcType="INTEGER" property="customerSex" />
+        <result column="customer_dept" jdbcType="VARCHAR" property="customerDept" />
+        <result column="customer_position" jdbcType="VARCHAR" property="customerPosition" />
+        <result column="customer_email" jdbcType="VARCHAR" property="customerEmail" />
+        <result column="customer_office_tel" jdbcType="VARCHAR" property="customerOfficeTel" />
+        <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+        <result column="dept_total_num" jdbcType="INTEGER" property="deptTotalNum" />
+        <result column="dept_nature" jdbcType="INTEGER" property="deptNature" />
+        <result column="dept_fax" jdbcType="VARCHAR" property="deptFax" />
+        <result column="dept_area" jdbcType="INTEGER" property="deptArea" />
+        <result column="dept_address" jdbcType="VARCHAR" property="deptAddress" />
+        <result column="dept_legal_person" jdbcType="VARCHAR" property="deptLegalPerson" />
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+        <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
+        <result column="post_code" jdbcType="VARCHAR" property="postCode" />
+        <result column="dept_phone" jdbcType="VARCHAR" property="deptPhone" />
+        <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+        <result column="industry_type" jdbcType="INTEGER" property="industryType" />
+        <result column="business_code" jdbcType="VARCHAR" property="businessCode" />
+        <result column="tax_code" jdbcType="VARCHAR" property="taxCode" />
+        <result column="created_user" jdbcType="VARCHAR" property="createdUser" />
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+        <result column="modified_user" jdbcType="VARCHAR" property="modifiedUser" />
+        <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, customer_status, dept_name, social_code, customer_name, customer_sex,
+    customer_dept, customer_position, customer_email, customer_office_tel, customer_phone,
+    dept_total_num, dept_nature, dept_fax, dept_area, dept_address, dept_legal_person,
+    bank_name, account_no, post_code, dept_phone, dept_code, industry_type, business_code,
+    tax_code, created_user, created_date, modified_user, modified_date, is_delete
+    </sql>
+<!--    根据id列表查询数据-->
+    <select id="getCustomerByIdSet" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List" />
+        from ebiz_customer
+        where id in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectByCnoAndCname" parameterType="java.lang.String" resultType="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+        select * from ebiz_customer
+        <where >
+            <if test="id != null">
+                id like CONCAT('%',#{id},'%')
+            </if>
+
+            <if test="name !=null and id != null" >
+                and customer_name like CONCAT('%',#{name},'%')
+            </if>
+        </where >
+    </select>
+    <!--  使用id查询用户状态-->
+    <select id="selectStatusById" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select customer_status from ebiz_customer where id = #{id} and is_delete=0
+    </select>
+    <!--  使用id和新status查询用户状态-->
+    <update id="changeStatus">
+        update ebiz_customer set customer_status = #{status} where id = #{id} and is_delete=0
+    </update>
+    <sql id="getInfoForThreeTable">
+        ebiz_customer.id as id,
+        ebiz_customer.dept_name as name,
+        ebiz_customer.customer_status as status,
+        ebiz_task.task_no as taskId,
+        ebiz_user.work_no as workerNum,
+        ebiz_user.work_name as workerName
+    </sql>
+    <sql id="getInfoForTwoTable">
+        ebiz_customer.id as id,
+        ebiz_customer.dept_name as name,
+        ebiz_customer.customer_status as status,
+        null as taskId,
+        null as workerNum,
+        null as workerName
+    </sql>
+    <sql id="threeTableInner">
+        ebiz_customer
+        left join ebiz_user
+        on(ebiz_customer.user_id=ebiz_user.id)
+        left join ebiz_task
+        on(ebiz_customer.id=ebiz_task.customer_id)
+
+    </sql>
+
+    <sql id="twoTableInner">
+        ebiz_customer
+    </sql>
+    <select id="getThreeTableInfo" resultType="com.ebiz.zhanye.dto.CustomerResultDTO">
+        select
+        <include refid="getInfoForThreeTable"/>
+        from
+        <include refid="threeTableInner"/>
+        <where>
+            (( ebiz_customer.user_id=ebiz_user.id and ebiz_customer.id=ebiz_task.customer_id and ebiz_customer.customer_status = 1 and ebiz_task.is_delete = 0)
+                or (ebiz_customer.customer_status = 0 )) and ebiz_customer.is_delete = 0
+            <if test="id != null">
+                and ebiz_customer.id like CONCAT('%',#{id},'%')
+            </if>
+            <if test="id == null">
+                and ebiz_customer.dept_name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="name !=null and id != null">
+                and ebiz_customer.dept_name like CONCAT('%',#{name},'%')
+            </if>
+            order by ebiz_customer.customer_status DESC,ebiz_customer.id
+        </where >
+    </select>
+    <update id="deleteById">
+        update ebiz_customer left join ebiz_task on(ebiz_customer.id = ebiz_task.customer_id)
+        set ebiz_customer.is_delete=1 ,ebiz_task.is_delete=1
+        where ((ebiz_customer.customer_status = 1) or (ebiz_customer.customer_status = 0)) and ebiz_customer.id = #{id}
+    </update>
+    <select id="selectById" resultType="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+        select * from ebiz_customer WHERE id = #{id} and is_delete = 0
+    </select>
+
+
+</mapper>

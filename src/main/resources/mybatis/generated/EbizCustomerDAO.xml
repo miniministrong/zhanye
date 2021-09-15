@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ebiz.zhanye.db.dao.EbizCustomerDAO">
+  <resultMap id="BaseResultMap" type="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="customer_status" jdbcType="INTEGER" property="customerStatus" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="social_code" jdbcType="VARCHAR" property="socialCode" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="customer_sex" jdbcType="INTEGER" property="customerSex" />
+    <result column="customer_dept" jdbcType="VARCHAR" property="customerDept" />
+    <result column="customer_position" jdbcType="VARCHAR" property="customerPosition" />
+    <result column="customer_email" jdbcType="VARCHAR" property="customerEmail" />
+    <result column="customer_office_tel" jdbcType="VARCHAR" property="customerOfficeTel" />
+    <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="dept_total_num" jdbcType="INTEGER" property="deptTotalNum" />
+    <result column="dept_nature" jdbcType="INTEGER" property="deptNature" />
+    <result column="dept_fax" jdbcType="VARCHAR" property="deptFax" />
+    <result column="dept_area" jdbcType="INTEGER" property="deptArea" />
+    <result column="dept_address" jdbcType="VARCHAR" property="deptAddress" />
+    <result column="dept_legal_person" jdbcType="VARCHAR" property="deptLegalPerson" />
+    <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+    <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
+    <result column="post_code" jdbcType="VARCHAR" property="postCode" />
+    <result column="dept_phone" jdbcType="VARCHAR" property="deptPhone" />
+    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+    <result column="industry_type" jdbcType="INTEGER" property="industryType" />
+    <result column="business_code" jdbcType="VARCHAR" property="businessCode" />
+    <result column="tax_code" jdbcType="VARCHAR" property="taxCode" />
+    <result column="created_user" jdbcType="VARCHAR" property="createdUser" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_user" jdbcType="VARCHAR" property="modifiedUser" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, customer_status, dept_name, social_code, customer_name, customer_sex, 
+    customer_dept, customer_position, customer_email, customer_office_tel, customer_phone, 
+    dept_total_num, dept_nature, dept_fax, dept_area, dept_address, dept_legal_person, 
+    bank_name, account_no, post_code, dept_phone, dept_code, industry_type, business_code, 
+    tax_code, created_user, created_date, modified_user, modified_date, is_delete
+  </sql>
+  <select id="selectByExample" parameterType="com.ebiz.zhanye.db.generated.model.EbizCustomerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ebiz_customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ebiz_customer
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKeys" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ebiz_customer
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ebiz_customer
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <update id="deleteByPrimaryKeys" parameterType="java.lang.String">
+    delete from ebiz_customer
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </update>
+  <delete id="deleteByExample" parameterType="com.ebiz.zhanye.db.generated.model.EbizCustomerExample">
+    delete from ebiz_customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+    insert into ebiz_customer (id, user_id, customer_status, 
+      dept_name, social_code, customer_name, 
+      customer_sex, customer_dept, customer_position, 
+      customer_email, customer_office_tel, customer_phone, 
+      dept_total_num, dept_nature, dept_fax, 
+      dept_area, dept_address, dept_legal_person, 
+      bank_name, account_no, post_code, 
+      dept_phone, dept_code, industry_type, 
+      business_code, tax_code, created_user, 
+      created_date, modified_user, modified_date, 
+      is_delete)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{customerStatus,jdbcType=INTEGER}, 
+      #{deptName,jdbcType=VARCHAR}, #{socialCode,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
+      #{customerSex,jdbcType=INTEGER}, #{customerDept,jdbcType=VARCHAR}, #{customerPosition,jdbcType=VARCHAR}, 
+      #{customerEmail,jdbcType=VARCHAR}, #{customerOfficeTel,jdbcType=VARCHAR}, #{customerPhone,jdbcType=VARCHAR}, 
+      #{deptTotalNum,jdbcType=INTEGER}, #{deptNature,jdbcType=INTEGER}, #{deptFax,jdbcType=VARCHAR}, 
+      #{deptArea,jdbcType=INTEGER}, #{deptAddress,jdbcType=VARCHAR}, #{deptLegalPerson,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{accountNo,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, 
+      #{deptPhone,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR}, #{industryType,jdbcType=INTEGER}, 
+      #{businessCode,jdbcType=VARCHAR}, #{taxCode,jdbcType=VARCHAR}, #{createdUser,jdbcType=VARCHAR}, 
+      #{createdDate,jdbcType=TIMESTAMP}, #{modifiedUser,jdbcType=VARCHAR}, #{modifiedDate,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+    insert into ebiz_customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="customerStatus != null">
+        customer_status,
+      </if>
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="socialCode != null">
+        social_code,
+      </if>
+      <if test="customerName != null">
+        customer_name,
+      </if>
+      <if test="customerSex != null">
+        customer_sex,
+      </if>
+      <if test="customerDept != null">
+        customer_dept,
+      </if>
+      <if test="customerPosition != null">
+        customer_position,
+      </if>
+      <if test="customerEmail != null">
+        customer_email,
+      </if>
+      <if test="customerOfficeTel != null">
+        customer_office_tel,
+      </if>
+      <if test="customerPhone != null">
+        customer_phone,
+      </if>
+      <if test="deptTotalNum != null">
+        dept_total_num,
+      </if>
+      <if test="deptNature != null">
+        dept_nature,
+      </if>
+      <if test="deptFax != null">
+        dept_fax,
+      </if>
+      <if test="deptArea != null">
+        dept_area,
+      </if>
+      <if test="deptAddress != null">
+        dept_address,
+      </if>
+      <if test="deptLegalPerson != null">
+        dept_legal_person,
+      </if>
+      <if test="bankName != null">
+        bank_name,
+      </if>
+      <if test="accountNo != null">
+        account_no,
+      </if>
+      <if test="postCode != null">
+        post_code,
+      </if>
+      <if test="deptPhone != null">
+        dept_phone,
+      </if>
+      <if test="deptCode != null">
+        dept_code,
+      </if>
+      <if test="industryType != null">
+        industry_type,
+      </if>
+      <if test="businessCode != null">
+        business_code,
+      </if>
+      <if test="taxCode != null">
+        tax_code,
+      </if>
+      <if test="createdUser != null">
+        created_user,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedUser != null">
+        modified_user,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerStatus != null">
+        #{customerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="socialCode != null">
+        #{socialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerSex != null">
+        #{customerSex,jdbcType=INTEGER},
+      </if>
+      <if test="customerDept != null">
+        #{customerDept,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPosition != null">
+        #{customerPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="customerEmail != null">
+        #{customerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerOfficeTel != null">
+        #{customerOfficeTel,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPhone != null">
+        #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deptTotalNum != null">
+        #{deptTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="deptNature != null">
+        #{deptNature,jdbcType=INTEGER},
+      </if>
+      <if test="deptFax != null">
+        #{deptFax,jdbcType=VARCHAR},
+      </if>
+      <if test="deptArea != null">
+        #{deptArea,jdbcType=INTEGER},
+      </if>
+      <if test="deptAddress != null">
+        #{deptAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="deptLegalPerson != null">
+        #{deptLegalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null">
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptPhone != null">
+        #{deptPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="industryType != null">
+        #{industryType,jdbcType=INTEGER},
+      </if>
+      <if test="businessCode != null">
+        #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxCode != null">
+        #{taxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedUser != null">
+        #{modifiedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ebiz.zhanye.db.generated.model.EbizCustomerExample" resultType="java.lang.Long">
+    select count(*) from ebiz_customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ebiz_customer
+    <set>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerStatus != null">
+        customer_status = #{record.customerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptName != null">
+        dept_name = #{record.deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.socialCode != null">
+        social_code = #{record.socialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerName != null">
+        customer_name = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerSex != null">
+        customer_sex = #{record.customerSex,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerDept != null">
+        customer_dept = #{record.customerDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerPosition != null">
+        customer_position = #{record.customerPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerEmail != null">
+        customer_email = #{record.customerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerOfficeTel != null">
+        customer_office_tel = #{record.customerOfficeTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerPhone != null">
+        customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptTotalNum != null">
+        dept_total_num = #{record.deptTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptNature != null">
+        dept_nature = #{record.deptNature,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptFax != null">
+        dept_fax = #{record.deptFax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptArea != null">
+        dept_area = #{record.deptArea,jdbcType=INTEGER},
+      </if>
+      <if test="record.deptAddress != null">
+        dept_address = #{record.deptAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptLegalPerson != null">
+        dept_legal_person = #{record.deptLegalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null">
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountNo != null">
+        account_no = #{record.accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postCode != null">
+        post_code = #{record.postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptPhone != null">
+        dept_phone = #{record.deptPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptCode != null">
+        dept_code = #{record.deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industryType != null">
+        industry_type = #{record.industryType,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessCode != null">
+        business_code = #{record.businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxCode != null">
+        tax_code = #{record.taxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdUser != null">
+        created_user = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedUser != null">
+        modified_user = #{record.modifiedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifiedDate != null">
+        modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ebiz_customer
+    set id = #{record.id,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      customer_status = #{record.customerStatus,jdbcType=INTEGER},
+      dept_name = #{record.deptName,jdbcType=VARCHAR},
+      social_code = #{record.socialCode,jdbcType=VARCHAR},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      customer_sex = #{record.customerSex,jdbcType=INTEGER},
+      customer_dept = #{record.customerDept,jdbcType=VARCHAR},
+      customer_position = #{record.customerPosition,jdbcType=VARCHAR},
+      customer_email = #{record.customerEmail,jdbcType=VARCHAR},
+      customer_office_tel = #{record.customerOfficeTel,jdbcType=VARCHAR},
+      customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
+      dept_total_num = #{record.deptTotalNum,jdbcType=INTEGER},
+      dept_nature = #{record.deptNature,jdbcType=INTEGER},
+      dept_fax = #{record.deptFax,jdbcType=VARCHAR},
+      dept_area = #{record.deptArea,jdbcType=INTEGER},
+      dept_address = #{record.deptAddress,jdbcType=VARCHAR},
+      dept_legal_person = #{record.deptLegalPerson,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      account_no = #{record.accountNo,jdbcType=VARCHAR},
+      post_code = #{record.postCode,jdbcType=VARCHAR},
+      dept_phone = #{record.deptPhone,jdbcType=VARCHAR},
+      dept_code = #{record.deptCode,jdbcType=VARCHAR},
+      industry_type = #{record.industryType,jdbcType=INTEGER},
+      business_code = #{record.businessCode,jdbcType=VARCHAR},
+      tax_code = #{record.taxCode,jdbcType=VARCHAR},
+      created_user = #{record.createdUser,jdbcType=VARCHAR},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      modified_user = #{record.modifiedUser,jdbcType=VARCHAR},
+      modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+    update ebiz_customer
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerStatus != null">
+        customer_status = #{customerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="socialCode != null">
+        social_code = #{socialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerSex != null">
+        customer_sex = #{customerSex,jdbcType=INTEGER},
+      </if>
+      <if test="customerDept != null">
+        customer_dept = #{customerDept,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPosition != null">
+        customer_position = #{customerPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="customerEmail != null">
+        customer_email = #{customerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerOfficeTel != null">
+        customer_office_tel = #{customerOfficeTel,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPhone != null">
+        customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deptTotalNum != null">
+        dept_total_num = #{deptTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="deptNature != null">
+        dept_nature = #{deptNature,jdbcType=INTEGER},
+      </if>
+      <if test="deptFax != null">
+        dept_fax = #{deptFax,jdbcType=VARCHAR},
+      </if>
+      <if test="deptArea != null">
+        dept_area = #{deptArea,jdbcType=INTEGER},
+      </if>
+      <if test="deptAddress != null">
+        dept_address = #{deptAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="deptLegalPerson != null">
+        dept_legal_person = #{deptLegalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null">
+        account_no = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptPhone != null">
+        dept_phone = #{deptPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        dept_code = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="industryType != null">
+        industry_type = #{industryType,jdbcType=INTEGER},
+      </if>
+      <if test="businessCode != null">
+        business_code = #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxCode != null">
+        tax_code = #{taxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createdUser != null">
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedUser != null">
+        modified_user = #{modifiedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedDate != null">
+        modified_date = #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ebiz.zhanye.db.generated.model.EbizCustomer">
+    update ebiz_customer
+    set user_id = #{userId,jdbcType=VARCHAR},
+      customer_status = #{customerStatus,jdbcType=INTEGER},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      social_code = #{socialCode,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      customer_sex = #{customerSex,jdbcType=INTEGER},
+      customer_dept = #{customerDept,jdbcType=VARCHAR},
+      customer_position = #{customerPosition,jdbcType=VARCHAR},
+      customer_email = #{customerEmail,jdbcType=VARCHAR},
+      customer_office_tel = #{customerOfficeTel,jdbcType=VARCHAR},
+      customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      dept_total_num = #{deptTotalNum,jdbcType=INTEGER},
+      dept_nature = #{deptNature,jdbcType=INTEGER},
+      dept_fax = #{deptFax,jdbcType=VARCHAR},
+      dept_area = #{deptArea,jdbcType=INTEGER},
+      dept_address = #{deptAddress,jdbcType=VARCHAR},
+      dept_legal_person = #{deptLegalPerson,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      account_no = #{accountNo,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
+      dept_phone = #{deptPhone,jdbcType=VARCHAR},
+      dept_code = #{deptCode,jdbcType=VARCHAR},
+      industry_type = #{industryType,jdbcType=INTEGER},
+      business_code = #{businessCode,jdbcType=VARCHAR},
+      tax_code = #{taxCode,jdbcType=VARCHAR},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_user = #{modifiedUser,jdbcType=VARCHAR},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
